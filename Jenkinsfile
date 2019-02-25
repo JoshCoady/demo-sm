@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo 'testing not detect until PR'
+        echo 'testing if PR update included'
       }
     }
   }
