@@ -4,7 +4,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        docker.build("demo/demo-sm:${env.GIT_COMMIT}")
+        script {
+          docker.build("demo/demo-sm:${env.GIT_COMMIT}")
+        }
       }
     }
   }
