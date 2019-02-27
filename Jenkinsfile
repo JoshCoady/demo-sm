@@ -10,11 +10,13 @@ pipeline {
     stage('Build') {
       steps {
         sh "docker build -t ${env.TAG} ."
-        env.IMAGE_ID = sh(script: "docker images --filter=reference=${env.TAG} --format \"{{.ID}}\"", returnStdout: true).trim()
       }
     }
 
     stage('Deliver') {
+      environment {
+        IMAGE_ID = sh(script: "docker images --filter=reference=${env.TAG} --format \"{{.ID}}\"", returnStdout: true).trim()
+      }
       steps {
         withAWS(credentials:'demo-aws') {
           sh ecrLogin()
