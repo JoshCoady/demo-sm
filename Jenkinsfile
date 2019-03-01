@@ -18,16 +18,12 @@ pipeline {
       when {
         branch "master"
       }
-      environment {
-        IMAGE_ID = sh(script: "docker images --filter=reference=${env.TAG} --format \"{{.ID}}\"", returnStdout: true).trim()
-      }
       steps {
         withAWS(credentials:'demo-aws') {
           sh ecrLogin()
         }
-        sh "docker tag ${env.IMAGE_ID} 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.TAG}"
-        sh "docker tag ${env.IMAGE_ID} ${env.REPO}:latest"
-        sh "docker push 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.TAG}"
+        sh "docker tag ${env.TAG} 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.REPO}:latest"
+        sh "docker push 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.REPO}:latest"
         build 'demo-sm-deploy'
       }
     }
