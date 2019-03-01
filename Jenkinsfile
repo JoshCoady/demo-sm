@@ -25,7 +25,8 @@ pipeline {
         withAWS(credentials:'demo-aws') {
           sh ecrLogin()
         }
-        sh "docker tag ${env.IMAGE_ID} 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.TAG} ${env.REPO}:latest"
+        sh "docker tag ${env.IMAGE_ID} 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.TAG}"
+        sh "docker tag ${env.IMAGE_ID} ${env.REPO}:latest"
         sh "docker push 070468416971.dkr.ecr.us-east-1.amazonaws.com/${env.TAG}"
         build 'demo-sm-deploy'
       }
